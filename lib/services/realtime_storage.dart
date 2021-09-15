@@ -144,6 +144,24 @@ class RealtimeStorage {
     );
   }
 
+  Future<bool> uploadFile({
+    required String remotePath,
+    required File file,
+  }) async {
+    final url = '$baseURL/storage/$database/$remotePath';
+    final res = await _dio.post(
+      url,
+      data: {
+        'file': await MultipartFile.fromFile(
+          file.absolute.path,
+          filename: file.path.substring(file.path.lastIndexOf('/') + 1),
+        ),
+      },
+    );
+
+    return res.statusCode == 200;
+  }
+
   bool _isDisposed = false;
   void dispose() {
     _isDisposed = true;
