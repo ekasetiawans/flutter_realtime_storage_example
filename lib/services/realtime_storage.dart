@@ -297,6 +297,10 @@ class DocumentSnapshot {
   }
 
   void operator []=(String key, dynamic value) {
+    assert(
+      !key.startsWith('_'),
+      'Keys that begin with an underscore are reserved words.',
+    );
     _data[key] = value;
   }
 
